@@ -1,9 +1,10 @@
-
 import re
+
 
 def split_by_punct(segment):
     """Splits str segment by punctuation, filters our empties and spaces."""
     return [s for s in re.split(r'\W+', segment) if s and not s.isspace()]
+
 
 def read_text(filename):
     with open(filename) as f:
@@ -36,6 +37,7 @@ def load_test_dataset(data_file):
             words = read_text(filename.strip())
             test.append(words)
     return test
+
 
 def prepare_imdb():
     # this split is used at
@@ -72,8 +74,10 @@ def prepare_imdb():
     fwrite_data('imdb_unlabled.txt', unlabled_lm_train)
     print('Done')
 
+
 if __name__ == '__main__':
     import sys
+
     action = sys.argv[1]
     if action == 'prepare_imdb':
         prepare_imdb()

@@ -152,7 +152,7 @@ class RNNForLM(chainer.Chain):
             else:
                 self.embed = L.EmbedID(n_vocab, n_units_word)
             self.rnn = L.NStepLSTM(n_layers, n_units_word, n_units, dropout)
-            assert(not (share_embedding))
+            assert(not share_embedding)
             if share_embedding:
                 self.output = SharedOutputLayer(self.embed.W)
             elif adaptive_softmax:

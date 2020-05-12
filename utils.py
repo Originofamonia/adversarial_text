@@ -1,5 +1,5 @@
-
 import numpy as np
+
 
 def convert_to_vocab_id(vocab, pos, neg, convert_vocab=True, ignore_unk=False, ign_eos=False):
     # binary class
@@ -44,17 +44,21 @@ def convert_to_vocab_id(vocab, pos, neg, convert_vocab=True, ignore_unk=False, i
     dataset_y = np.array(dataset_y, dtype=np.int32)
     return dataset_x, dataset_x_length, dataset_y
 
+
 def load_file_preprocess(filename, lower=True):
     dataset = []
+
     def conv(w):
         if lower:
             return w.lower()
         return w
+
     with open(filename, 'r') as f:
         for l in f:
             words = [conv(w) for w in l.strip().split(' ')]
             dataset.append(words)
     return dataset
+
 
 def load_dataset_imdb(include_pretrain=False, convert_vocab=True, lower=True,
                       min_count=0, ignore_unk=False, use_semi_data=False,

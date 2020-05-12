@@ -1,8 +1,7 @@
-
-'''
+"""
 Original code with Chainer:
 https://github.com/soskek/efficient_softmax
-'''
+"""
 
 from __future__ import print_function
 import argparse
@@ -147,9 +146,9 @@ def main():
 
     # Prepare an RNNLM model
     model = lm_nets.RNNForLM(n_vocab, args.unit, args.layer, args.dropout,
-                          share_embedding=args.share_embedding,
-                          adaptive_softmax=args.adaptive_softmax,
-                          n_units_word=args.n_units_word)
+                             share_embedding=args.share_embedding,
+                             adaptive_softmax=args.adaptive_softmax,
+                             n_units_word=args.n_units_word)
 
     if args.norm_vecs:
         print('#norm_vecs')
@@ -253,7 +252,7 @@ def main():
                 best_val_perp = val_perp
                 best_epoch = train_iter.epoch
                 serializers.save_npz(os.path.join(
-                args.out, 'best.model'), model)
+                    args.out, 'best.model'), model)
             elif args.decay_if_fail:
                 if hasattr(optimizer, 'alpha'):
                     optimizer.alpha *= 0.5

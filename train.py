@@ -15,18 +15,19 @@ from chainer import optimizers
 import chainer.functions as F
 
 import logging
+
+from chainer import serializers
+import net
+import lm_nets
+
 logger = logging.getLogger(__name__)
 
 chainer.config.use_cudnn = 'always'
 to_cpu = chainer.cuda.to_cpu
 to_gpu = chainer.cuda.to_gpu
 
-from chainer import serializers
-import net
-import lm_nets
 
 def main():
-
     logging.basicConfig(
         format='%(asctime)s : %(threadName)s : %(levelname)s : %(message)s',
         level=logging.INFO)
@@ -104,7 +105,6 @@ def main():
                         default=2, help='n_class')
     parser.add_argument('--word_only', dest='word_only', type=int,
                         default=0, help='word_only')
-
 
     args = parser.parse_args()
     batchsize = args.batchsize
@@ -223,7 +223,6 @@ def main():
         log_str = ' [test] accuracy:{}, length:{}'.format(str(test_accuracy))
         logging.info(log_str)
 
-
     for epoch in range(args.n_epoch):
         logging.info('epoch:' + str(epoch))
         # train
@@ -237,6 +236,7 @@ def main():
             perm_semi = [np.random.permutation(len(semi_train_x)) for _ in range(2)]
             perm_semi = np.concatenate(perm_semi, axis=0)
             # print 'perm_semi:', perm_semi.shape
+
         def idx_func(shape):
             return xp.arange(shape).astype(xp.int32)
 
@@ -312,7 +312,7 @@ def main():
 
             if args.alpha_decay > 0.0:
                 if args.use_exp_decay:
-                    opt.hyperparam.alpha = (base_alpha) * (args.alpha_decay**global_step)
+                    opt.hyperparam.alpha = (base_alpha) * (args.alpha_decay ** global_step)
                 else:
                     opt.hyperparam.alpha *= args.alpha_decay  # 0.9999
 
@@ -323,7 +323,6 @@ def main():
         logging.info(' [train] sum_loss: {}'.format(sum_loss / N))
         logging.info(' [train] apha:{}, global_step:{}'.format(opt.hyperparam.alpha, global_step))
         logging.info(' [train] accuracy:{}'.format(accuracy))
-
 
         model.set_train(False)
         # dev
@@ -338,7 +337,6 @@ def main():
 
         last_epoch_flag = args.n_epoch - 1 == epoch
         if prev_dev_accuracy < dev_accuracy:
-
             logging.info(' => '.join([str(prev_dev_accuracy), str(dev_accuracy)]))
             result_str = 'dev_acc_' + str(dev_accuracy)
             result_str += '_test_acc_' + str(test_accuracy)
@@ -347,7 +345,6 @@ def main():
             serializers.save_hdf5(model_filename + '.model', model)
 
             prev_dev_accuracy = dev_accuracy
-
 
 
 if __name__ == '__main__':

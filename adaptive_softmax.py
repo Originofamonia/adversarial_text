@@ -453,8 +453,7 @@ def adaptive_softmax_cross_entropy(
         return AdaptiveSoftmaxCrossEntropy(
             cutoff, normalize=normalize,
             ignore_label=ignore_label,
-            reduce=reduce)(
-                x, t, *Ws, *Rs)
+            reduce=reduce)(x, t, *Ws, *Rs)
 
 
 def adaptive_softmax_output(
